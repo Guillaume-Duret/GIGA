@@ -41,6 +41,10 @@ def main(args, rank):
         if args.save_scene:
             (args.root / "mesh_pose_list").mkdir(parents=True)
 
+        
+    print("grasps_per_worker : ", grasps_per_worker)
+    print("GRASPS_PER_SCENE : ", GRASPS_PER_SCENE)
+    print("grasps_per_worker // GRASPS_PER_SCENE : ", grasps_per_worker // GRASPS_PER_SCENE)
     for _ in range(grasps_per_worker // GRASPS_PER_SCENE):
         # generate heap
         object_count = np.random.poisson(OBJECT_COUNT_LAMBDA) + 1
@@ -193,6 +197,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     args.save_scene = True
     if args.num_proc > 1:
+        mp.set_start_method('spawn', force=True)
         pool = mp.Pool(processes=args.num_proc)
         for i in range(args.num_proc):
             pool.apply_async(func=main, args=(args, i))

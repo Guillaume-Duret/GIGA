@@ -47,6 +47,7 @@ def main(args):
     g_starting_time = time.time()
 
     if args.num_proc > 1:
+        mp.set_start_method('spawn', force=True)
         pool = mp.Pool(processes=args.num_proc) 
         print('Total jobs: %d, CPU num: %d' % (g_num_total_jobs, args.num_proc))
         for f in mesh_list_files:
