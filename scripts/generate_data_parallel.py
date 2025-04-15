@@ -192,6 +192,8 @@ if __name__ == "__main__":
     parser.add_argument("--sim-gui", action="store_true")
     args = parser.parse_args()
     args.save_scene = True
+
+    mp.set_start_method('spawn')
     if args.num_proc > 1:
         pool = mp.Pool(processes=args.num_proc)
         for i in range(args.num_proc):
